@@ -16,16 +16,8 @@ Ideas are iteratively strengthened through multiple rounds of generation, critic
 
 ## Usage
 
-**As a plugin:**
-
 ```
 /gan:generate Give me an idea for a new startup
-```
-
-**As a standalone skill (when working inside this repo):**
-
-```
-/gan Give me an idea for a new startup
 ```
 
 ### Options
@@ -188,7 +180,7 @@ With the default of 5 ideas, this produces `draft_1.md` through `draft_5.md` and
 
 ## Installation
 
-### As a plugin (recommended)
+### As a plugin
 
 The `gan-plugin/` directory is a ready-to-use Claude Code plugin. You can install it in several ways:
 
@@ -211,10 +203,6 @@ claude --plugin-dir ./gan-plugin
 ```
 
 Once installed, the skill is available as `/gan:generate`.
-
-### As a standalone project skill
-
-If you clone this repo and work inside it, the skill and agents under `.claude/` are available directly as `/gan`. This is useful for development and experimentation.
 
 ## Design Principles
 
