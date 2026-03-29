@@ -1,0 +1,9 @@
+{
+  "name": "gan",
+  "description": "GAN-inspired adversarial idea generation with generator and discriminator agents that iteratively refine ideas through multiple rounds of criticism and revision.",
+  "version": "1.0.0",
+  "author": {
+    "name": "William Arslett"
+  },
+  "license": "MIT"
+}

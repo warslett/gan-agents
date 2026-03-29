@@ -14,6 +14,56 @@ This project applies the same principle to idea generation. Instead of neural ne
 
 Ideas are iteratively strengthened through multiple rounds of generation, criticism, and revision — with the weakest idea eliminated each round — until a single, battle-tested idea survives.
 
+## Usage
+
+**As a plugin:**
+
+```
+/gan:generate Give me an idea for a new startup
+```
+
+**As a standalone skill (when working inside this repo):**
+
+```
+/gan Give me an idea for a new startup
+```
+
+### Options
+
+| Flag | Description | Default |
+|---|---|---|
+| `--ideas N` | Number of ideas to generate (minimum 2). Controls the number of rounds: N ideas = N-1 eviction rounds. | 5 |
+| `--dir PATH` | Directory to use for problem files. Can be absolute or relative. If omitted, a directory is created automatically under `problems/` based on the problem statement. | Auto-generated |
+
+Options can appear anywhere in the arguments:
+
+```
+/gan:generate --ideas 3 Give me an idea for a new startup
+/gan:generate Give me an idea for a new startup --dir problems/my-startup
+/gan:generate --ideas 8 --dir /tmp/experiment What should I build next?
+```
+
+Fewer ideas means a faster, cheaper run. More ideas means broader exploration and more rounds of refinement.
+
+### Example Problems
+
+This tool is problem-agnostic. Some examples:
+
+- "Give me an idea for a new startup in the education space"
+- "Where should I go travelling this year if I enjoy hiking and history?"
+- "How should I architect a real-time multiplayer game backend?"
+- "What would be a good premise for a new science fiction novel?"
+- "What new car should I buy if I prioritise safety and fuel efficiency?"
+- "How should I invest $50,000 for long-term growth?"
+
+### What to Expect
+
+- After invoking the skill, you will be asked how you want to score ideas (defaults, select from list, or define your own). If you define your own dimensions, you will be asked a short clarifying question for each one.
+- The process involves many agent invocations and will take several minutes to complete.
+- You can follow progress by watching the files appear in the problem directory.
+- The final `summary.md` will be presented to you when the process completes.
+- All intermediate drafts and criticism documents are preserved for transparency.
+
 ## Architecture
 
 ### Agents
@@ -25,7 +75,7 @@ Ideas are iteratively strengthened through multiple rounds of generation, critic
 | **Generator Ideation Worker** | Creative blue-sky thinker. Proposes bold, original ideas with research. | Invoked by Generator Orchestrator (round 1 only) |
 | **Generator Revision Worker** | Idea advocate. Strengthens and defends an idea against specific criticism. | Invoked by Generator Orchestrator (revision rounds) |
 | **Discriminator Orchestrator** | Manages Discriminator Workers. Aggregates scores and recommends eviction. | Invoked by GAN Orchestrator |
-| **Discriminator Worker** | Adversarial critic. Scores ideas on 7 dimensions and exposes weaknesses. | Invoked by Discriminator Orchestrator |
+| **Discriminator Worker** | Adversarial critic. Scores ideas on user-selected dimensions and exposes weaknesses. | Invoked by Discriminator Orchestrator |
 
 ### Adversarial Boundary
 
@@ -53,29 +103,29 @@ All sub-agents are invoked with **fresh context** every time. No state carries o
 
 ### Round 1 — Ideation
 
-1. The GAN Orchestrator creates a problem directory under `problems/`.
-2. The Generator Orchestrator invokes **5 Ideation Workers sequentially**. Each worker:
+1. The GAN Orchestrator creates (or uses) the problem directory.
+2. The Generator Orchestrator invokes **K Ideation Workers sequentially** (where K is the number of ideas, default 5). Each worker:
    - Receives the problem statement.
    - Gets one-sentence summaries of previously proposed ideas (to ensure diversity).
    - Performs web research for inspiration.
    - Returns a detailed, original idea.
-3. The Generator Orchestrator compiles all 5 ideas into `draft_1.md`.
+3. The Generator Orchestrator compiles all K ideas into `draft_1.md`.
 
-### Rounds 1–4 — Criticism & Eviction
+### Rounds 1 to K-1 — Criticism & Eviction
 
-For each round N (from 1 to 4):
+For each round N (from 1 to K-1):
 
 4. The Discriminator Orchestrator reads `draft_N.md` and invokes **one Discriminator Worker per idea, in parallel**. Each worker:
    - Receives only the single idea it must evaluate.
    - Performs web research to fact-check and challenge the idea.
-   - Scores the idea on **7 dimensions** (1–10 each).
+   - Scores the idea on the **user-selected dimensions** (1–10 each).
    - Provides detailed prose criticism.
    - Gives a verdict: **Strong**, **Weak**, or **Evict**.
 5. The Discriminator Orchestrator aggregates scores and recommends which idea to **evict** (the one with the lowest aggregate score).
 6. The criticism is written to `draft_N_criticism.md`.
 7. The GAN Orchestrator **executes the eviction** — it always follows the Discriminator's recommendation.
 
-### Rounds 2–5 — Revision
+### Rounds 2 to K — Revision
 
 8. The Generator Orchestrator reads the criticism and invokes **one Revision Worker per remaining idea, in parallel**. Each worker:
    - Receives only its own idea and its own criticism (no cross-idea information).
@@ -84,82 +134,87 @@ For each round N (from 1 to 4):
    - Uses web research only to find supporting evidence or verify facts (not to reimagine the idea).
 9. The revised ideas are compiled into `draft_[N+1].md`.
 
-### Final Challenge & Revision
-
-10. After `draft_5.md` (containing the single surviving idea), the Discriminator performs one **final challenge** — criticising the idea without an eviction recommendation.
-11. The Generator performs one **final revision** based on this criticism, producing `draft_6.md`.
-
 ### Summary
 
-12. The GAN Orchestrator reads all drafts and criticism files, then produces `summary.md` containing:
-    - The original problem.
-    - All 5 original ideas and how they evolved.
-    - Which ideas were evicted, when, and why.
-    - The final surviving idea and why it won.
-    - Score progressions across rounds.
+10. The GAN Orchestrator reads all drafts and criticism files, then produces `summary.md` containing:
+     - The original problem.
+     - All K original ideas and how they evolved.
+     - Which ideas were evicted, when, and why.
+     - The final surviving idea and why it won.
+     - Score progressions across rounds.
 
 ## Scoring Dimensions
 
-Each idea is scored by Discriminator Workers on these 7 dimensions (1–10):
+Before the GAN process begins, the user chooses how ideas will be scored. There are three options:
+
+1. **Use defaults** — all 8 predefined dimensions are used.
+2. **Select from list** — the user picks a subset of the 8 predefined dimensions.
+3. **Define my own** — the user provides custom dimension names. Each custom dimension is then clarified through a follow-up question with suggested interpretations, so the Discriminator knows exactly what to assess.
+
+This means scoring is tailored to the problem. A question about holiday destinations might only need Cost, Fun, and Safety, while a startup idea might benefit from Feasibility, Impact, and Rigour.
+
+### Predefined Dimensions
 
 | Dimension | What It Measures |
 |---|---|
 | **Feasibility** | Can this realistically be done with available resources and technology? |
 | **Originality** | Is this genuinely novel or a rehash of existing ideas? |
-| **Risk of Failure** | How likely is this to go wrong? (Scored inversely — high risk = low score) |
-| **Potential Impact or Benefit** | How valuable is the outcome if it works? |
-| **Quality of Supporting Evidence** | Is the reasoning well-founded or speculative? |
+| **Impact** | How valuable is the outcome if it works? |
+| **Simplicity** | Is the idea elegant, easy to understand, and free of unnecessary complexity? |
+| **Risk Management** | How well does the idea anticipate, mitigate, and manage risks? |
+| **Rigour** | Is the reasoning well-founded and thorough, or mostly speculation? |
 | **Coherence** | Does the idea hold together logically without contradictions? |
 | **Adaptability** | How robust is the idea to changing circumstances or assumptions? |
 
-The **aggregate score** is the mean of all 7 dimensions. Eviction is based on the lowest aggregate score, with tiebreakers on verdict count and then feasibility.
+The **aggregate score** is the mean of all selected dimensions. Eviction is based on the lowest aggregate score, with tiebreakers on verdict count and then the first dimension in the list.
 
 ## File Structure
 
-After a complete run, the problem directory will contain:
+After a complete run with K ideas, the problem directory will contain:
 
 ```
 problems/
   your-problem-slug/
-    draft_1.md                  # 5 initial ideas
-    draft_1_criticism.md        # Criticism of all 5, evicts 1
-    draft_2.md                  # 4 revised ideas
-    draft_2_criticism.md        # Criticism of 4, evicts 1
-    draft_3.md                  # 3 revised ideas
-    draft_3_criticism.md        # Criticism of 3, evicts 1
-    draft_4.md                  # 2 revised ideas
-    draft_4_criticism.md        # Criticism of 2, evicts 1
-    draft_5.md                  # 1 surviving idea (revised)
-    draft_5_criticism.md        # Final challenge (no eviction)
-    draft_6.md                  # Final revision
+    draft_1.md                  # K initial ideas
+    draft_1_criticism.md        # Criticism of all K, evicts 1
+    draft_2.md                  # K-1 revised ideas
+    draft_2_criticism.md        # Criticism of K-1, evicts 1
+    ...                         # (one eviction per round)
+    draft_K.md                  # 1 surviving idea (final revision)
     summary.md                  # Complete process summary
 ```
 
-## Usage
+With the default of 5 ideas, this produces `draft_1.md` through `draft_5.md` and `draft_1_criticism.md` through `draft_4_criticism.md`.
 
-Invoke the GAN Orchestrator agent with your problem:
+## Installation
+
+### As a plugin (recommended)
+
+The `gan-plugin/` directory is a ready-to-use Claude Code plugin. You can install it in several ways:
+
+**Local testing:**
+
+```bash
+claude --plugin-dir ./gan-plugin
+```
+
+**Install from a local path** (persists across sessions):
 
 ```
-/gan Give me an idea for a new startup
+/plugin install --path ./gan-plugin
 ```
 
-### Example Problems
+**Install from a Git repository:**
 
-This tool is problem-agnostic. Some examples:
+```
+/plugin install gan@https://github.com/warslett/gan-agents
+```
 
-- "Give me an idea for a new startup in the education space"
-- "Where should I go travelling this year if I enjoy hiking and history?"
-- "How should I architect a real-time multiplayer game backend?"
-- "What would be a good premise for a new science fiction novel?"
-- "What new car should I buy if I prioritise safety and fuel efficiency?"
-- "How should I invest $50,000 for long-term growth?"
+Once installed, the skill is available as `/gan:generate`.
 
-### What to Expect
+### As a standalone project skill
 
-- The process involves many agent invocations and will take several minutes to complete.
-- You can follow progress by watching the files appear in the problem directory.
-- The final `summary.md` will be presented to you when the process completes.
-- All intermediate drafts and criticism documents are preserved for transparency.
+If you clone this repo and work inside it, the skill and agents under `.claude/` are available directly as `/gan`. This is useful for development and experimentation.
 
 ## Design Principles
 
