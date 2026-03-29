@@ -69,14 +69,87 @@ For each round N from 1 to K-1:
 
 ### Step 3: Summary
 
-Read ALL files in the problem directory — every draft and every criticism document. Then write `[problem_dir]/summary.md` containing:
+Read ALL files in the problem directory — every draft and every criticism document. Then write `[problem_dir]/summary.md` following the template below **exactly**. Do not deviate from the structure, heading levels, or formatting.
 
-1. **Original Problem** — the user's original prompt, quoted verbatim.
-2. **Ideas Overview** — a brief summary of each of the K original ideas from draft_1.md.
-3. **Evolution Through Rounds** — for each idea, describe how it was revised across rounds. Include key scores from each criticism round.
-4. **Evicted Ideas** — for each evicted idea: what it was, which round it was evicted in, the scores it received, and the Discriminator's reason for recommending eviction.
-5. **Final Idea** — the complete final idea from draft_K.md, including why it survived over the others based on the adversarial process.
-6. **Process Statistics** — total rounds, total ideas generated, score progressions for the surviving idea across rounds.
+```markdown
+# Summary — [Short Problem Description]
+
+## 1. Original Problem
+
+> "[The user's problem, quoted verbatim]"
+
+**Scoring Dimensions:** [Comma-separated list of dimension names]
+
+## 2. Final Idea
+
+### [Title of the winning idea]
+
+[Complete description of the final idea from draft_K.md — multiple paragraphs as needed.]
+
+**Why it survived:** [Explanation of why this idea won over the others, referencing scores and the adversarial process.]
+
+## 3. Ideas Overview
+
+[K] ideas were generated in Round 1:
+
+1. **[Title]** -- [One-sentence summary of the idea]
+
+2. **[Title]** -- [One-sentence summary of the idea]
+
+[...repeat for all K ideas]
+
+## 4. Evolution Through Rounds
+
+### [Title] (Idea N) -- WINNER
+- **Round 1:** Aggregate X.X. [Key feedback summary.]
+- **Round 2 (Revision):** [What changed and why.] Aggregate rose to X.X. [Dimension changes.]
+- **Round 3 (Revision):** [What changed and why.] Aggregate rose to X.X. [Dimension changes.]
+[...continue for all rounds the idea survived]
+- **Round K (Final Revision):** [Final improvements integrated.]
+
+### [Title] (Idea N)
+- **Round 1:** Aggregate X.X. [Key feedback summary.]
+[...continue for all rounds before eviction]
+- Evicted in Round N.
+
+[...repeat for every idea, in order of eviction (last evicted first, first evicted last)]
+
+## 5. Evicted Ideas
+
+| Round | Evicted Idea | Aggregate Score | Reason |
+|---|---|---|---|
+| 1 | [Title] | X.X | [One-sentence reason for eviction] |
+| 2 | [Title] | X.X | [One-sentence reason for eviction] |
+[...one row per eviction round]
+
+## 6. Process Artifacts
+
+IMPORTANT: Use relative links (e.g. `draft_1.md`), NOT absolute paths or `./` prefixed paths.
+
+| Round | Draft | Criticism |
+|---|---|---|
+| 1 (Ideation) | [draft_1.md](draft_1.md) | [draft_1_criticism.md](draft_1_criticism.md) |
+| 2 (Revision) | [draft_2.md](draft_2.md) | [draft_2_criticism.md](draft_2_criticism.md) |
+[...one row per round. The final round has no criticism: use "—" in the Criticism column]
+| K (Final) | [draft_K.md](draft_K.md) | — |
+
+## 7. Process Statistics
+
+- **Total rounds:** X (1 ideation + Y eviction/revision rounds)
+- **Total ideas generated:** K
+- **Ideas evicted:** K-1
+- **Final survivor:** [Title] (Idea N)
+
+### Score Progression for [Title]
+
+| Round | [Dim 1] | [Dim 2] | [Dim 3] | ... | Aggregate |
+|---|---|---|---|---|---|
+| 1 | X | X | X | ... | X.X |
+| 2 | X | X | X | ... | X.X |
+[...one row per round the winner was scored in]
+
+[One-sentence summary of the aggregate improvement, e.g. "The idea improved its aggregate score from X.X to X.X across N rounds of adversarial refinement, with the most significant gains in [dimensions]."]
+```
 
 Present the summary to the user by reading the summary.md file and outputting its contents.
 

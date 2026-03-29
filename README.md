@@ -49,10 +49,10 @@ Fewer ideas means a faster, cheaper run. More ideas means broader exploration an
 
 This tool is problem-agnostic. Some examples:
 
-- "Give me an idea for a new startup in the education space"
-- "Where should I go travelling this year if I enjoy hiking and history?"
-- "How should I architect a real-time multiplayer game backend?"
-- "What would be a good premise for a new science fiction novel?"
+- ["Give me an idea for a new startup in the education space"](examples/new-education-startup/summary.md)
+- ["Where should I go travelling this year if I enjoy hiking and history?"](examples/hiking-and-history-travel/summary.md)
+- ["How should I architect a real-time multiplayer game backend?"](examples/realtime-multiplayer-game-backend/summary.md)
+- ["What would be a good premise for a new science fiction novel?"](examples/sci-fi-novel-premise/summary.md)
 - "What new car should I buy if I prioritise safety and fuel efficiency?"
 - "How should I invest $50,000 for long-term growth?"
 
