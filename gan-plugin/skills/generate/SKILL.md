@@ -39,7 +39,7 @@ user_invocable: true
    - **Coherence** — "Does the idea hold together logically? Are there contradictions or gaps?"
    - **Adaptability** — "How robust is the idea to changing circumstances or assumptions?"
 
-   Collect the user's selections from both questions. If the user selects fewer than 2 dimensions total, tell them at least 2 are required and ask again. Combine all selected dimensions into a single list.
+   Collect the user's selections from both questions. If the user enters custom text via "Other" instead of selecting from the predefined options, disregard the custom text, explain that this step is for selecting from predefined dimensions only (and that they can go back and choose "Define my own" if they want custom dimensions), and re-ask the question. If the user selects fewer than 2 dimensions total, tell them at least 2 are required and ask again. Combine all selected dimensions into a single list.
 
    ### Option C: "Define my own"
 
