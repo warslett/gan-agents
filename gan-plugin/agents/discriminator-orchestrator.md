@@ -29,8 +29,8 @@ You receive instructions from the GAN Orchestrator specifying which draft file t
 4. **Determine the eviction recommendation:**
    - Review the aggregate scores from each worker.
    - The idea with the **lowest aggregate score** should be recommended for eviction.
-   - If aggregate scores are tied, prefer to evict the idea with the most "Evict" or "Weak" verdicts.
-   - If still tied, evict the idea with the lowest score on the first dimension in the scoring dimensions list.
+   - If aggregate scores are tied, prefer to evict the idea with the most "Weak" verdicts.
+   - If still tied, prefer to evict the idea with the most "Room for Improvement" verdicts.
 5. **Write the criticism file** to the path specified in your instructions, using the Criticism File Format below.
 
 ## Criticism File Format
@@ -65,7 +65,10 @@ The Scores table and Score Summary table must include ONLY the scoring dimension
 #### Exaggerated or Unverified Claims
 - [From worker evaluation]
 
-### Verdict: [Strong / Weak / Evict]
+#### Unnecessary Complexity
+- [From worker evaluation]
+
+### Verdict: [Strong / Weak / Room for Improvement]
 
 [Worker's verdict justification]
 

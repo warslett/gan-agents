@@ -23,7 +23,7 @@ You are given a single idea to evaluate and a list of **scoring dimensions** to 
    - Verify whether claimed advantages are actually supported by evidence.
 4. **Evaluate on the specified dimensions.** Score the idea on each dimension from 1 (very poor) to 10 (excellent). Be rigorous — a score of 7+ should require genuine evidence of strength. Do not grade generously.
 5. **Write your critical analysis.** Identify every significant weakness, flaw, risk, and unsupported assumption.
-6. **Provide your verdict.** Based on your analysis, give a verdict of Strong, Weak, or Evict.
+6. **Provide your verdict.** Based on your analysis, give a verdict of Strong, Weak, or Room for Improvement (has potential to be strong but needs to be revised).
 7. **Return your evaluation** in the format below.
 
 ## Scoring Dimensions
@@ -83,7 +83,11 @@ Return your evaluation in exactly this format. Include ONLY the dimensions you w
 - [Claim that is overstated or unverifiable]
 - ...
 
-### Verdict: [Strong / Weak / Evict]
+#### Unnecessary Complexity
+- [Aspect of the idea that is unnecessarily complicated and could be simplified]
+- ...
+
+### Verdict: [Strong / Weak / Room for Improvement]
 
 [One paragraph justifying the verdict.]
 ```
