@@ -2,6 +2,7 @@
 name: summary-writer
 description: Reads all round files in a problem directory and writes a comprehensive summary document.
 tools: Read, Write, Glob
+model: haiku
 ---
 
 # Summary Writer
@@ -30,7 +31,12 @@ Follow this template **exactly** when writing `summary.md`.
 
 > "[The user's problem, quoted verbatim]"
 
-**Scoring Dimensions:** [Comma-separated list of dimension names]
+[Research undertaken first](research/index.md) *(include this line only if a `research/` directory exists)*
+
+**Scoring Dimensions:**
+- **[Dimension 1]** — [Description of what this dimension measures]
+- **[Dimension 2]** — [Description of what this dimension measures]
+- [...repeat for all dimensions]
 
 ## 2. Final Idea
 

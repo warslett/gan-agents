@@ -16,52 +16,33 @@ user_invocable: true
 
    The user may also type a custom number via "Other". Parse their response as the number of ideas (K). If K is less than 2, tell the user the minimum is 2 and ask again.
 
-4. Ask the user how they want to score ideas. Use the `AskUserQuestion` tool with a SINGLE question (multiSelect: false):
+4. Ask the user how they want to score ideas. Use the `AskUserQuestion` tool with a SINGLE question (multiSelect: false).
+
+   Generate **3 suggested sets of 4 dimensions each**, tailored to the problem statement. Each set should represent a different lens or priority for evaluating ideas. Each dimension in a set should have a short name and a one-sentence description of what to assess.
+
+   Use the following examples as inspiration for the kinds of dimensions that work well:
+
+   **Example dimensions for technical or business problems:** Feasibility (Can this realistically be done with available resources and technology?), Simplicity (Is the idea elegant, easy to understand, and free of unnecessary complexity?), Risk Management (How well does the idea anticipate and manage risks?), Adaptability (How robust is the idea to changing circumstances or assumptions?)
+
+   **Example dimensions for creative problems:** Originality (Is this genuinely novel or a rehash of existing ideas?), Impact (How strongly does this resonate or move its audience?), Coherence (Does the idea hold together logically without contradictions?), Practicality (Can this be realistically executed within typical constraints?)
+
+   Present the 3 suggested sets as options. The label for each option should list the 4 dimension names (e.g. "Feasibility, Impact, Simplicity, Risk Management"). The description should briefly explain the lens or focus of that set.
 
    **Question** (header: "Scoring"):
-   > "How do you want to score ideas?"
-   - **Use defaults** — "Use all 8 predefined scoring dimensions (Feasibility, Originality, Impact, Simplicity, Risk Management, Rigour, Coherence, Adaptability)"
-   - **Select from list** — "Choose which of the 8 predefined dimensions to include"
-   - **Define my own** — "Specify your own custom scoring dimensions"
+   > "What dimensions should ideas be scored on?"
+   - **[Set 1 dimension names]** — "[Brief description of this set's focus]"
+   - **[Set 2 dimension names]** — "[Brief description of this set's focus]"
+   - **[Set 3 dimension names]** — "[Brief description of this set's focus]"
 
-   Then proceed based on the user's choice:
+   The user may select one of the 3 suggested sets or type their own comma-separated list of dimension names via "Other".
 
-   ### Option A: "Use defaults"
+   ### If the user selects a suggested set
 
-   Use all 8 predefined dimensions: Feasibility, Originality, Impact, Simplicity, Risk Management, Rigour, Coherence, Adaptability.
+   Use the 4 dimensions from that set directly, with the descriptions you generated.
 
-   ### Option B: "Select from list"
+   ### If the user types custom dimensions
 
-   Use the `AskUserQuestion` tool with TWO multiSelect questions. The user selects the dimensions they want. Present all 8 available dimensions split across 2 questions:
-
-   **Question 1** (header: "Criteria 1/2"):
-   > "Which scoring dimensions do you want to evaluate ideas against? (1/2)"
-   - **Feasibility** — "Can this realistically be done? Are resources, technology, and skills available?"
-   - **Originality** — "Is this genuinely novel, or a rehash of existing ideas?"
-   - **Impact** — "If it works, how valuable is the outcome? Is the upside significant?"
-   - **Simplicity** — "Is the idea elegant and easy to understand? Does it avoid unnecessary complexity?"
-
-   **Question 2** (header: "Criteria 2/2"):
-   > "Which scoring dimensions do you want to evaluate ideas against? (2/2)"
-   - **Risk Management** — "How well does the idea anticipate and manage risks?"
-   - **Rigour** — "Is the reasoning well-founded? Are claims backed by evidence?"
-   - **Coherence** — "Does the idea hold together logically? Are there contradictions or gaps?"
-   - **Adaptability** — "How robust is the idea to changing circumstances or assumptions?"
-
-   Collect the user's selections from both questions. If the user enters custom text via "Other" instead of selecting from the predefined options, disregard the custom text, explain that this step is for selecting from predefined dimensions only (and that they can go back and choose "Define my own" if they want custom dimensions), and re-ask the question. If the user selects fewer than 2 dimensions total, tell them at least 2 are required and ask again. Combine all selected dimensions into a single list.
-
-   ### Option C: "Define my own"
-
-   Use the `AskUserQuestion` tool (multiSelect: false) to ask the user to list their dimensions:
-
-   **Question** (header: "Dimensions"):
-   > "What dimensions do you want to score ideas against? List them separated by commas."
-   - **Example: Cost, Fun, Novelty** — "Comma-separated list of dimension names"
-   - **Example: Practicality, Wow Factor, Sustainability, Inclusivity** — "Comma-separated list of dimension names"
-
-   The user will either select an example or type their own list via "Other". Parse their response into individual dimension names.
-
-   Then, for EVERY dimension (even if its name matches a predefined dimension), ask a clarifying question using `AskUserQuestion` (multiSelect: false) to confirm what it means and how to score it. Do NOT skip any dimension — the user's intended meaning may differ from the predefined definition. Generate 2 plausible interpretations of the dimension as options based on the dimension name and the problem context. For example, if the user listed "Fun" for a children's activity problem:
+   Parse their response into individual dimension names. Then, for EVERY dimension, ask a clarifying question using `AskUserQuestion` (multiSelect: false) to confirm what it means and how to score it. Do NOT skip any dimension — the user's intended meaning may differ from what you might assume. Generate 3 plausible interpretations of the dimension as options based on the dimension name and the problem context. For example, if the user listed "Fun" for a children's activity problem:
 
    **Question** (header: "[Dimension]"):
    > "What should '[Dimension]' measure when scoring ideas?"
@@ -71,7 +52,7 @@ user_invocable: true
 
    The user can select one of the 3 suggestions or type their own via "Other". Use their answer as the scoring description for that dimension.
 
-   After clarifying all dimensions, compile them into the final list. Each dimension should have a name and a one-sentence description of what to assess (matching the format used by the predefined dimensions).
+   After clarifying all dimensions, compile them into the final list. Each dimension should have a name and a one-sentence description of what to assess.
 
 5. **Research (optional).** Ask the user whether they want web research using `AskUserQuestion` (multiSelect: false):
 

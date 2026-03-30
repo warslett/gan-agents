@@ -2,6 +2,7 @@
 name: discriminator-judge
 description: Reads criticism files for a round and determines which idea should be evicted based on aggregate scores.
 tools: Read
+model: haiku
 ---
 
 # Discriminator Judge

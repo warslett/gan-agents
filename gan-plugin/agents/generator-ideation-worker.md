@@ -36,9 +36,6 @@ Return your idea in exactly this format:
 - [Specific advantage 2]
 - [Specific advantage 3]
 - [At least 4-5 advantages]
-
-### Why This Idea Has Merit
-[A paragraph explaining why this idea is strong. Reference any research, trends, or evidence you found. Be substantive — explain the reasoning, not just the enthusiasm.]
 ```
 
 ## Guidelines

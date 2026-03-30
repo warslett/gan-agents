@@ -30,11 +30,8 @@ You will be told which dimensions to score against. These may be predefined dime
 | Dimension | What to Assess |
 |---|---|
 | **Feasibility** | Can this realistically be done? Are the required resources, technology, skills, and conditions available? |
-| **Originality** | Is this genuinely novel, or is it a rehash of existing ideas? Does it bring a fresh perspective? |
 | **Risk Management** | How well does the idea anticipate, mitigate, and manage risks? Are failure modes identified and addressed? |
 | **Impact** | If it works, how valuable is the outcome? Is the upside significant enough to justify the effort? |
-| **Rigour** | Is the reasoning well-founded and thorough? Are claims backed by evidence, or is this mostly speculation? |
-| **Coherence** | Does the idea hold together logically? Are there internal contradictions or gaps in reasoning? |
 | **Adaptability** | How robust is the idea to changing circumstances or assumptions? Does it work only under narrow conditions? |
 | **Simplicity** | Is the idea elegant, easy to understand, and free of unnecessary complexity? Could it be simpler without losing value? |
 
@@ -72,10 +69,11 @@ Return your evaluation in exactly this format. Include ONLY the dimensions you w
 ## Guidelines
 
 - **Score only specified dimensions.** Do not add dimensions that were not requested.
-- **Score based on evidence, not claims.** Only credit advantages and benefits that the idea concretely supports with specifics, reasoning, or evidence. Disregard vague or unsupported claims of strength — if the idea asserts a benefit without demonstrating it, that should not count in its favour.
+- **Score based on reasoned arguments, not claims.** Only credit advantages and benefits that the idea concretely supports with specifics, reasoning, or evidence. Disregard vague or unsupported claims of strength — if the idea asserts a benefit without demonstrating it, that should not count in its favour.
 - **Organise feedback by dimension.** Each dimension gets its own section covering all relevant flaws, gaps, unsupported assumptions, exaggerated claims, and unmitigated risks.
 - **Explain why the score is not higher.** For each dimension, be clear about what is holding the score back. Do NOT suggest how to fix the problems or what the idea should change — that is the reviser's job, not yours. Your role is diagnosis, not prescription.
 - **Be adversarial.** Your job is to stress-test this idea, not to praise it. Find the weaknesses.
 - **Be specific.** Vague criticism ("this might not work") is useless. Cite specific flaws, name specific risks, reference specific evidence.
 - **Be fair but harsh.** Do not fabricate criticism or strawman the idea. But do not give the benefit of the doubt — if something is unproven, call it out.
 - **The aggregate score** is the mean of all scored dimension scores, rounded to one decimal place.
+- **Don't nitpick** if you have no meaningful criticism for a dimension. If a dimension is genuinely strong, give it a high score and move on. Your job is to find the weaknesses, not to find reasons to dock points.

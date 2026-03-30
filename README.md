@@ -37,16 +37,15 @@ After invoking the skill, you will be asked interactively how many ideas to gene
 
 This tool is problem-agnostic. Some examples:
 
+- ["Give me some fun ideas for a scout troop leader to organise for their scout troop. The troop has girls and boys aged 10 - 14"](examples/scout-troop-activities/summary.md)
+- ["Where should I go travelling this year for one week in Europe if I enjoy hiking and history but don't like very hot weather?"](examples/europe-hiking-history-trip/summary.md)
+- ["What software architecture should I use for a virtual rummikub game allowing multiple players to play against each other or against an AI over the web?"](examples/virtual-rummikub-game-architecture/summary.md)
 - ["Give me an idea for a new startup in the education space"](examples/new-education-startup/summary.md)
-- ["Where should I go travelling this year if I enjoy hiking and history?"](examples/hiking-and-history-travel/summary.md)
-- ["How should I architect a real-time multiplayer game backend?"](examples/realtime-multiplayer-game-backend/summary.md)
-- ["What would be a good premise for a new science fiction novel?"](examples/sci-fi-novel-premise/summary.md)
-- "What new car should I buy if I prioritise safety and fuel efficiency?"
-- "How should I invest $50,000 for long-term growth?"
+
 
 ### What to Expect
 
-- After invoking the skill, you will be guided through an interactive setup: how many ideas (3, 5, 10, or custom), how to score them (defaults, select from list, or define your own), and whether to perform web research (yes, no, or custom instructions). If you define your own scoring dimensions, you will be asked a short clarifying question for each one.
+- After invoking the skill, you will be guided through an interactive setup: how many ideas (3, 5, 10, or custom), how to score them (choose from suggested dimension sets or define your own), and whether to perform web research (yes, no, or custom instructions). If you define your own scoring dimensions, you will be asked a short clarifying question for each one.
 - The process involves many agent invocations and will take several minutes to complete.
 - You can follow progress by watching the files appear in the problem directory.
 - A short summary will be displayed when the process completes. The full `summary.md` is written to the problem directory.
@@ -146,26 +145,9 @@ For each round N (from 1 to K-1):
 
 ## Scoring Dimensions
 
-Before the GAN process begins, the user chooses how ideas will be scored. There are three options:
+Before the GAN process begins, the user chooses how ideas will be scored. The system analyses the problem statement and suggests **3 sets of 4 dimensions**, each representing a different evaluation lens. The user can pick a suggested set or type their own comma-separated list of custom dimensions. Custom dimensions are each clarified through a follow-up question with suggested interpretations, so the Discriminator knows exactly what to assess.
 
-1. **Use defaults** — all 8 predefined dimensions are used.
-2. **Select from list** — the user picks a subset of the 8 predefined dimensions.
-3. **Define my own** — the user provides custom dimension names. Each custom dimension is then clarified through a follow-up question with suggested interpretations, so the Discriminator knows exactly what to assess.
-
-This means scoring is tailored to the problem. A question about holiday destinations might only need Cost, Fun, and Safety, while a startup idea might benefit from Feasibility, Impact, and Rigour.
-
-### Predefined Dimensions
-
-| Dimension | What It Measures |
-|---|---|
-| **Feasibility** | Can this realistically be done with available resources and technology? |
-| **Originality** | Is this genuinely novel or a rehash of existing ideas? |
-| **Impact** | How valuable is the outcome if it works? |
-| **Simplicity** | Is the idea elegant, easy to understand, and free of unnecessary complexity? |
-| **Risk Management** | How well does the idea anticipate, mitigate, and manage risks? |
-| **Rigour** | Is the reasoning well-founded and thorough, or mostly speculation? |
-| **Coherence** | Does the idea hold together logically without contradictions? |
-| **Adaptability** | How robust is the idea to changing circumstances or assumptions? |
+This means scoring is tailored to the problem. A question about software architecture might be scored on Feasibility, Simplicity, Scalability, and Security, while a creative writing prompt might use Originality, Emotional Impact, Coherence, and Practicality.
 
 The **aggregate score** is the mean of all selected dimensions. Eviction is based on the lowest aggregate score, with tiebreakers determined by the severity and number of weaknesses identified in the critical analysis.
 
